@@ -1,16 +1,20 @@
 package kz.fitness.homefit.services.implementations;
 
 import kz.fitness.homefit.models.Account;
+import kz.fitness.homefit.models.Training;
 import kz.fitness.homefit.repositories.AccountRepository;
 import kz.fitness.homefit.services.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -63,5 +67,27 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
+    }
+
+    @Override
+    public String isLogged() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (!currentPrincipalName.equals("anonymousUser")) {
+            return currentPrincipalName;
+        }
+        return "anonymousUser";
+    }
+
+    @Override
+    public void addTrainingToAccount(Training training, Account account) {
+        Account account1 = findByEmail(account.getEmail());
+        account1.getTrainings().add(training);
+    }
+
+    @Override
+    public Set<Training> getHistory() {
+        Account account = findByEmail(isLogged());
+        return account.getTrainings();
     }
 }

@@ -77,7 +77,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         AuthData r = new AuthData();
         r.setAge(userDetails.getUser().getAge());
         r.setEmail(userDetails.getUser().getEmail());
-        r.setGender(userDetails.getUser().getGender());
+        r.setGender(userDetails.getUser().getGender().name());
         r.setFullName(userDetails.getUser().getFullName());
 
         Map<String, String> tokenJson = jwtUtil.generateTokens(

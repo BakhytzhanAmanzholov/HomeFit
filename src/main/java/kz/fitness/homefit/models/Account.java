@@ -3,6 +3,7 @@ package kz.fitness.homefit.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -16,6 +17,10 @@ public class Account {
         USER, ADMIN
     }
 
+    public enum Gender {
+        MALE, FEMALE
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,11 +28,15 @@ public class Account {
     private String fullName;
     private String email;
     private String password;
-    private String gender;
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
     private Integer age;
 
     private Boolean isNotBanned;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToMany
+    private Set<Training> trainings;
 }

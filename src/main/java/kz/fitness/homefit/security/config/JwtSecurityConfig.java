@@ -38,7 +38,7 @@ public class JwtSecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/accounts").permitAll();
-        httpSecurity.authorizeRequests().antMatchers("/api/accounts/**").hasAuthority("ADMIN");
+        httpSecurity.authorizeRequests().antMatchers("/api/accounts/**").hasAuthority("USER");
 //        httpSecurity.authorizeRequests().antMatchers("/api/violation/**").hasAuthority("ADMIN");
 //        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/violation/", "/api/accounts/entrance/", "/api/group", "/api/incidents").permitAll();
         httpSecurity.addFilter(jwtAuthenticationFilter);
