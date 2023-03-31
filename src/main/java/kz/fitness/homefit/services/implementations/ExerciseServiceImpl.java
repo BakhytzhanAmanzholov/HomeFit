@@ -76,7 +76,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         } catch (Exception e) {
             System.out.println(e);
         }
-        ResponseEntity<Object> responseToServe = restTemplate.getForEntity("http://127.0.0.1:5000/curl?video=" + name, Object.class);
+        ResponseEntity<Object> responseToServe = restTemplate.getForEntity("http://64.226.81.168:5000/curl?video=" + name, Object.class);
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         VideoDto videoLocation = objectMapper.convertValue(objects, VideoDto.class);
