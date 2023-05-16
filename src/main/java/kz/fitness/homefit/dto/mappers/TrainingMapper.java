@@ -15,7 +15,8 @@ public class TrainingMapper {
 
         InputStream inputStream = null;
         try {
-            inputStream = Files.newInputStream(tempFile.toPath());
+            System.out.println(training.getLocation());
+            inputStream = new FileInputStream(training.getLocation());
         } catch (Exception e) {
             // TODO: handle exception
         }

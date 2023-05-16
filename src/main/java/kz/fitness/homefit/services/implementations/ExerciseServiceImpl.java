@@ -70,7 +70,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         byte[] decodedBytes = Base64.getDecoder().decode(dto.getVideo().getBytes());
         String name = UUID.randomUUID().toString() + ".mp4";
         try {
-            FileOutputStream out = new FileOutputStream("D:\\works\\ml-server\\" + name);
+            FileOutputStream out = new FileOutputStream("ml-server\\" + name);
             out.write(decodedBytes);
             out.close();
         } catch (Exception e) {

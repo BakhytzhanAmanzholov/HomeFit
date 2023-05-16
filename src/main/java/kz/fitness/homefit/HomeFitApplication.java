@@ -39,21 +39,21 @@ public class HomeFitApplication {
     @Bean
     public CommandLineRunner commandLineRunner(ExerciseService exerciseService, AccountService accountService) {
         return args -> {
-            exerciseService.save(
-                    Exercise.builder()
-                            .name("Gandeli")
-                            .type(Exercise.Type.HANDS)
-                            .build()
-            );
-            accountService.save(
-                    Account.builder()
-                            .age(20)
-                            .email("abc123@gmail.com")
-                            .password("abc123")
-                            .fullName("Hello")
-                            .gender(Account.Gender.MALE)
-                            .build()
-            );
+//            exerciseService.save(
+//                    Exercise.builder()
+//                            .name("Gandeli")
+//                            .type(Exercise.Type.HANDS)
+//                            .build()
+//            );
+//            accountService.save(
+//                    Account.builder()
+//                            .age(20)
+//                            .email("abc123@gmail.com")
+//                            .password("abc123")
+//                            .fullName("Hello")
+//                            .gender(Account.Gender.MALE)
+//                            .build()
+//            );
         };
     }
 
