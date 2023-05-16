@@ -80,7 +80,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         VideoDto videoLocation = objectMapper.convertValue(objects, VideoDto.class);
-        System.out.println(videoLocation.getOutput_video());
+        System.out.println("ml-server/" + videoLocation.getOutput_video());
         Training training = trainingService.save(
                 Training.builder()
                         .account(account)

@@ -9,8 +9,6 @@ import java.util.Base64;
 
 public class TrainingMapper {
     public static TrainingHistoryDto toResponseDto(Training training){
-
-        File tempFile = new File(training.getLocation());
         String encodedString = null;
 
         InputStream inputStream = null;
