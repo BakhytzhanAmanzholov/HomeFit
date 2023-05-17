@@ -17,7 +17,7 @@ import javax.persistence.Id;
 public class Exercise {
 
     public enum Type {
-        HANDS, BACK
+        HANDS, BACK, LEGS
     }
 
 

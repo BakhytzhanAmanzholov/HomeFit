@@ -35,8 +35,8 @@ public class ExerciseController {
     }
 
     @PostMapping("{id}")
-    public ResponseEntity<?> findById(@RequestBody TrainingDto dto) {
-        exerciseService.train(dto);
+    public ResponseEntity<?> findById(@RequestBody TrainingDto dto, @PathVariable("id") Long id) {
+        exerciseService.train(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

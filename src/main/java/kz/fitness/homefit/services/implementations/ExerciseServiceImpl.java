@@ -65,7 +65,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void train(TrainingDto dto) {
+    public void train(TrainingDto dto, Long id) {
         Account account = accountService.findByEmail(accountService.isLogged());
         byte[] decodedBytes = Base64.getDecoder().decode(dto.getVideo().getBytes());
         String name = UUID.randomUUID().toString() + ".mp4";
@@ -76,7 +76,12 @@ public class ExerciseServiceImpl implements ExerciseService {
         } catch (Exception e) {
             System.out.println(e);
         }
-        ResponseEntity<Object> responseToServe = restTemplate.getForEntity("http://64.226.81.168:5000/curl?video=" + name, Object.class);
+        ResponseEntity<Object> responseToServe;
+        if(id == 1){
+            responseToServe = restTemplate.getForEntity("http://64.226.81.168:5000/curl?video=" + name, Object.class);
+        } else {
+            responseToServe = restTemplate.getForEntity("http://64.226.81.168:5000/squats?video=" + name, Object.class);
+        }
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         VideoDto videoLocation = objectMapper.convertValue(objects, VideoDto.class);

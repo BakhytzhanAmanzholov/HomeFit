@@ -8,5 +8,5 @@ import java.util.List;
 public interface ExerciseService extends CrudService<Exercise, Long>{
     List<Exercise> findAll();
 
-    void train(TrainingDto dto);
+    void train(TrainingDto dto, Long id);
 }
