@@ -142,5 +142,70 @@ def curl():
     return jsonify({"output_video": os.path.abspath(output_video_path)})
 
 
+@app.route('/pushups', methods=['GET'])
+def pushups():
+    video = request.args.get('video')
+    output_video_name = os.path.splitext(os.path.basename(video))[0] + "_processed.mp4"
+    output_video_path = os.path.join('video', output_video_name)
+
+    cap = cv2.VideoCapture(video)
+    detector = pm.poseDetector()
+    count = 0
+    dir = 0
+
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_video_path, fourcc, 25, (width, height))
+    frame_number = 0
+
+    while True:
+        success, img = cap.read()
+        if not success:
+            break
+
+        img = detector.findPose(img, draw=False)
+        lmList = detector.findPosition(img, draw=False)
+
+        if len(lmList) != 0:
+            angle = detector.findAngle(img, 11, 13, 15)
+            per = np.interp(angle, (205, 270), (0, 100))
+            bar = np.interp(angle, (205, 270), (650, 100))
+            color = (255, 0, 255)
+            if per == 100:
+                if dir == 0:
+                    count += 1
+                    dir = 1
+            if per == 0:
+                if dir == 1:
+                    dir = 0
+
+            # Draw lines from shoulder to elbow, and from elbow to wrist
+            shoulder_elbow_color = (0, 255, 0)  # Green
+            elbow_wrist_color = (0, 255, 0)  # Green
+            img = detector.draw_lines(img, [12, 14, 16], [shoulder_elbow_color, elbow_wrist_color])
+            img = detector.draw_lines(img, [11, 13, 15], [shoulder_elbow_color, elbow_wrist_color])
+
+            # # Draw Bar
+            # cv2.rectangle(img, (1100, 100), (1175, 650), color, 3)
+            # cv2.rectangle(img, (1100, int(bar)), (1175, 650), color, cv2.FILLED)
+            # cv2.putText(img, f'{int(per)} %', (1100, 75), cv2.FONT_HERSHEY_PLAIN, 4,
+            #             color, 4)
+
+            # Draw Push-Up Count
+            cv2.rectangle(img, (0, 450), (250, 720), (0, 255, 0), cv2.FILLED)
+            cv2.putText(img, str(int(count)), (45, 670), cv2.FONT_HERSHEY_PLAIN, 15,
+                        (255, 0, 0), 25)
+
+        out.write(img)
+        frame_number += 1
+
+    out.release()
+    cap.release()
+
+    return jsonify({"output_video": os.path.abspath(output_video_path)})
+
+
 if __name__ == '__main__':
     app.run()

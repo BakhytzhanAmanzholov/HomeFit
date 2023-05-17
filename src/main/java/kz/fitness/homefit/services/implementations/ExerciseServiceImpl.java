@@ -78,9 +78,11 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
         ResponseEntity<Object> responseToServe;
         if(id == 1){
-            responseToServe = restTemplate.getForEntity("http://64.226.81.168:5000/curl?video=" + name, Object.class);
+            responseToServe = restTemplate.getForEntity("http://localhost:5000/curl?video=" + name, Object.class);
+        } else if (id == 3) {
+            responseToServe = restTemplate.getForEntity("http://localhost:5000/pushups?video=" + name, Object.class);
         } else {
-            responseToServe = restTemplate.getForEntity("http://64.226.81.168:5000/squats?video=" + name, Object.class);
+            responseToServe = restTemplate.getForEntity("http://localhost:5000/squats?video=" + name, Object.class);
         }
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();

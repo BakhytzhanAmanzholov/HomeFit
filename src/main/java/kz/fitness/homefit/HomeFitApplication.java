@@ -53,6 +53,14 @@ public class HomeFitApplication {
                             .type(Exercise.Type.LEGS)
                             .build()
             );
+
+            exerciseService.save(
+                    Exercise.builder()
+                            .name("Pushups")
+                            .type(Exercise.Type.HANDS)
+                            .build()
+            );
+
             accountService.save(
                     Account.builder()
                             .age(20)
