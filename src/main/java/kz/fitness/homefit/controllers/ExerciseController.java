@@ -39,4 +39,5 @@ public class ExerciseController {
         exerciseService.train(dto, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

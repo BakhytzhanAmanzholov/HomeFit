@@ -68,6 +68,8 @@ public class HomeFitApplication {
                             .password("abc123")
                             .fullName("Hello")
                             .gender(Account.Gender.MALE)
+                            .count(0)
+                            .calories(0)
                             .build()
             );
         };

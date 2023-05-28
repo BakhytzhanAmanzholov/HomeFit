@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -22,4 +23,11 @@ public class Training {
 
 
     private String location;
+
+    private LocalDateTime dateTime;
+
+    private long time; // time in milliseconds
+
+    @ManyToOne
+    private Exercise exercise;
 }

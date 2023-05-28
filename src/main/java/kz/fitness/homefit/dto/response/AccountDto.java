@@ -9,4 +9,6 @@ public class AccountDto {
     private Long id;
     private String email;
     private String fullName;
+    private Integer count;
+    private Integer calories;
 }

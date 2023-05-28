@@ -1,6 +1,9 @@
 package kz.fitness.homefit.services.implementations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xuggle.xuggler.IContainer;
+import com.xuggle.xuggler.IStream;
+import com.xuggle.xuggler.IStreamCoder;
 import kz.fitness.homefit.dto.request.TrainingDto;
 import kz.fitness.homefit.dto.response.VideoDto;
 import kz.fitness.homefit.exceptions.NotFoundException;
@@ -22,6 +25,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.rmi.server.UID;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -77,7 +82,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             System.out.println(e);
         }
         ResponseEntity<Object> responseToServe;
-        if(id == 1){
+        if (id == 1) {
             responseToServe = restTemplate.getForEntity("http://localhost:5000/curl?video=" + name, Object.class);
         } else if (id == 3) {
             responseToServe = restTemplate.getForEntity("http://localhost:5000/pushups?video=" + name, Object.class);
@@ -87,13 +92,34 @@ public class ExerciseServiceImpl implements ExerciseService {
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         VideoDto videoLocation = objectMapper.convertValue(objects, VideoDto.class);
-        System.out.println(videoLocation.getOutput_video());
+        String filename = videoLocation.getOutput_video();
+        IContainer container = IContainer.make();
+        container.open(filename, IContainer.Type.READ, null);
+        long duration = container.getDuration() / 1000000;
+        container.close();
+
+
         Training training = trainingService.save(
                 Training.builder()
                         .account(account)
                         .location(videoLocation.getOutput_video())
+                        .dateTime(LocalDateTime.now())
+                        .time(duration)
+                        .exercise(findById(id))
                         .build()
         );
+        account = accountService.findByEmail(accountService.isLogged());
         accountService.addTrainingToAccount(training, account);
+        account = accountService.findByEmail(accountService.isLogged());
+        account.setCount(account.getCount() + 1);
+        account = accountService.findByEmail(accountService.isLogged());
+        if(id == 1){
+            account.setCalories((int) (account.getCalories() + duration/3));
+        } else if (id == 2) {
+            account.setCalories((int) (account.getCalories() + (duration/3)*2));
+        }
+        else {
+            account.setCalories((int) (account.getCalories() + duration/3));
+        }
     }
 }

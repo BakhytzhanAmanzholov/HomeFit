@@ -28,6 +28,8 @@ public class AccountMapper {
                 .email(account.getEmail())
                 .fullName(account.getFullName())
                 .id(account.getId())
+                .count(account.getTrainings().size())
+                .calories(account.getCalories())
                 .build();
     }
 }

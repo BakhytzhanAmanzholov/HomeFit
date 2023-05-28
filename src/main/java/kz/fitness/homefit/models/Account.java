@@ -34,6 +34,9 @@ public class Account {
 
     private Boolean isNotBanned;
 
+    private Integer count;
+    private Integer calories;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
 

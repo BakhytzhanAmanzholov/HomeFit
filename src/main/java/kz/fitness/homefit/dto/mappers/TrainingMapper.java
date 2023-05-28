@@ -1,14 +1,16 @@
 package kz.fitness.homefit.dto.mappers;
 
 import kz.fitness.homefit.dto.response.TrainingHistoryDto;
+import kz.fitness.homefit.dto.response.TrainingIdDto;
+import kz.fitness.homefit.models.Account;
 import kz.fitness.homefit.models.Training;
 
 import java.io.*;
-import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Base64;
 
 public class TrainingMapper {
-    public static TrainingHistoryDto toResponseDto(Training training){
+    public static TrainingHistoryDto toResponseDto(Training training) {
         String encodedString = null;
 
         InputStream inputStream = null;
@@ -33,10 +35,19 @@ public class TrainingMapper {
         encodedString = Base64.getEncoder().encodeToString(bytes);
 
 
-        TrainingHistoryDto dto = TrainingHistoryDto.builder()
+        return TrainingHistoryDto.builder()
                 .id(training.getId())
+                .dateTime(training.getDateTime().toString())
+                .exercise(training.getExercise().getName())
                 .video(encodedString)
                 .build();
-        return dto;
+    }
+
+    public static TrainingIdDto toResponseDtoHistory(Training training) {
+        return TrainingIdDto.builder()
+                .id(training.getId())
+                .exercise(training.getExercise().getName())
+                .dateTime(training.getDateTime().toString())
+                .build();
     }
 }

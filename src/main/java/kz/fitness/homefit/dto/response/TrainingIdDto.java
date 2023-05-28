@@ -3,11 +3,10 @@ package kz.fitness.homefit.dto.response;
 import lombok.Builder;
 import lombok.Data;
 
-@Data
 @Builder
-public class TrainingHistoryDto {
+@Data
+public class TrainingIdDto {
     private Long id;
     private String dateTime;
     private String exercise;
-    private String video;
 }
