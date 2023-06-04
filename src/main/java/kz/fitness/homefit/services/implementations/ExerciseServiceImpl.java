@@ -77,6 +77,8 @@ public class ExerciseServiceImpl implements ExerciseService {
         try {
             FileOutputStream out = new FileOutputStream("ml-server\\" + name);
             out.write(decodedBytes);
+            FileInputStream fileInputStream = new FileInputStream("ml-server\\" + name);
+            System.out.println(fileInputStream.read());
             out.close();
         } catch (Exception e) {
             System.out.println(e);

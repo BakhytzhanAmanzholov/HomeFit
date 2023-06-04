@@ -42,7 +42,7 @@ public class HomeFitApplication {
         return args -> {
             exerciseService.save(
                     Exercise.builder()
-                            .name("Gandeli")
+                            .name("Dumbells")
                             .type(Exercise.Type.HANDS)
                             .build()
             );
