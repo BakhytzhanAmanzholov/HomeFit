@@ -11,4 +11,7 @@ public class AccountDto {
     private String fullName;
     private Integer count;
     private Integer calories;
+
+    private String gender;
+    private Integer age;
 }

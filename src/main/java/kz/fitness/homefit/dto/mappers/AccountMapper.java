@@ -30,6 +30,8 @@ public class AccountMapper {
                 .id(account.getId())
                 .count(account.getTrainings().size())
                 .calories(account.getCalories())
+                .gender(account.getGender().name())
+                .age(account.getAge())
                 .build();
     }
 }
