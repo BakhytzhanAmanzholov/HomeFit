@@ -91,6 +91,8 @@ public class HomeFitApplication {
             );
             account = accountService.findByEmail(account.getEmail());
             accountService.addTrainingToAccount(training, account);
+            String user = System.getProperty("user.name");
+            System.out.println("Current user: " + user);
         };
     }
 
