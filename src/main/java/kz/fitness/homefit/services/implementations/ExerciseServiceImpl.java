@@ -78,7 +78,9 @@ public class ExerciseServiceImpl implements ExerciseService {
         try {
             FileOutputStream out = new FileOutputStream("ml-server\\" + name);
             out.write(decodedBytes);
-            System.out.println(out.getFD().toString());
+            System.out.println(name);
+            System.out.println(out.getChannel());
+            System.out.println(out.getFD().valid());
             out.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -89,7 +91,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         } else if (id == 3) {
             responseToServe = restTemplate.getForEntity("http://localhost:5000/pushups?video=" + name, Object.class);
         } else {
-            responseToServe = restTemplate.getForEntity("http://localhost:5000/squats?video=" + name, Object.class);
+            responseToServe = restTemplate.getForEntity("http://161.35.223.202:5000/squats?video=" + name, Object.class);
         }
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
