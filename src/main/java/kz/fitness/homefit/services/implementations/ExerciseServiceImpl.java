@@ -27,6 +27,7 @@ import java.io.*;
 import java.rmi.server.UID;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -73,12 +74,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void train(TrainingDto dto, Long id) {
         Account account = accountService.findByEmail(accountService.isLogged());
         byte[] decodedBytes = Base64.getDecoder().decode(dto.getVideo().getBytes());
-        String name = UUID.randomUUID().toString() + ".mp4";
+        String name = UUID.randomUUID() + ".mp4";
         try {
             FileOutputStream out = new FileOutputStream("ml-server\\" + name);
             out.write(decodedBytes);
-            FileInputStream fileInputStream = new FileInputStream("ml-server\\" + name);
-            System.out.println(fileInputStream.read());
+            System.out.println(Arrays.toString(decodedBytes));
             out.close();
         } catch (Exception e) {
             System.out.println(e);
