@@ -40,6 +40,8 @@ public class AccountServiceImpl implements AccountService {
         catch (UsernameNotFoundException e){
             entity.setPassword(passwordEncoder.encode(entity.getPassword()));
             entity.setIsNotBanned(true);
+            entity.setCalories(0);
+            entity.setCount(0);
             if (entity.getRole() == null) {
                 entity.setRole(Account.Role.USER);
             }
