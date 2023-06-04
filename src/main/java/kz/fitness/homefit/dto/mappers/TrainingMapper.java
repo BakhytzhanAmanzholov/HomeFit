@@ -6,6 +6,8 @@ import kz.fitness.homefit.models.Account;
 import kz.fitness.homefit.models.Training;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 
@@ -16,7 +18,7 @@ public class TrainingMapper {
         InputStream inputStream = null;
         try {
             System.out.println(training.getLocation());
-            inputStream = new FileInputStream(training.getLocation());
+            inputStream = Files.newInputStream(Paths.get(training.getLocation()));
         } catch (Exception e) {
             // TODO: handle exception
         }
