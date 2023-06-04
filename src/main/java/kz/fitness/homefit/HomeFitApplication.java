@@ -1,6 +1,7 @@
 package kz.fitness.homefit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kz.fitness.homefit.dto.request.TrainingDto;
 import kz.fitness.homefit.models.Account;
 import kz.fitness.homefit.models.Exercise;
 import kz.fitness.homefit.services.AccountService;
