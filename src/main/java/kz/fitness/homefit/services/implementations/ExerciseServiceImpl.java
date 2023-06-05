@@ -1,21 +1,24 @@
 package kz.fitness.homefit.services.implementations;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xuggle.xuggler.IContainer;
-import com.xuggle.xuggler.IStream;
-import com.xuggle.xuggler.IStreamCoder;
 import kz.fitness.homefit.dto.request.TrainingDto;
+import kz.fitness.homefit.dto.response.ErrorDto;
 import kz.fitness.homefit.dto.response.VideoDto;
 import kz.fitness.homefit.exceptions.NotFoundException;
 import kz.fitness.homefit.models.Account;
+import kz.fitness.homefit.models.Error;
 import kz.fitness.homefit.models.Exercise;
 import kz.fitness.homefit.models.Training;
 import kz.fitness.homefit.repositories.ExerciseRepository;
 import kz.fitness.homefit.services.AccountService;
+import kz.fitness.homefit.services.ErrorService;
 import kz.fitness.homefit.services.ExerciseService;
 import kz.fitness.homefit.services.TrainingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,14 +26,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
-import java.rmi.server.UID;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +42,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     private final AccountService accountService;
     private final TrainingService trainingService;
     private final RestTemplate restTemplate;
+
+    private final ErrorService errorService;
 
     @Override
     public Exercise save(Exercise entity) {
@@ -74,40 +75,49 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void train(TrainingDto dto, Long id) {
         Account account = accountService.findByEmail(accountService.isLogged());
         byte[] decodedBytes = Base64.getDecoder().decode(dto.getVideo().getBytes());
-        String name = UUID.randomUUID() + ".mp4";
-        try {
-            FileOutputStream out = new FileOutputStream("ml-server\\" + name);
-            out.write(decodedBytes);
-            System.out.println(out.getFD().valid());
-            out.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
         ResponseEntity<Object> responseToServe;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
+        requestBody.add("video", dto.getVideo());
+
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
         if (id == 1) {
-            responseToServe = restTemplate.getForEntity("http://localhost:5000/curl?video=" + name, Object.class);
+            responseToServe = restTemplate.postForEntity("http://localhost:5000/curl",  requestEntity, Object.class);
         } else if (id == 3) {
-            responseToServe = restTemplate.getForEntity("http://localhost:5000/pushups?video=" + name, Object.class);
+            responseToServe = restTemplate.postForEntity("http://localhost:5000/pushups", requestEntity, Object.class);
         } else {
-            responseToServe = restTemplate.getForEntity("http://localhost:5000/squats?video=" + name, Object.class);
+            responseToServe = restTemplate.postForEntity("http://localhost:5000/squats", requestEntity, Object.class);
         }
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
-        VideoDto videoLocation = objectMapper.convertValue(objects, VideoDto.class);
-        String filename = videoLocation.getOutput_video();
-        IContainer container = IContainer.make();
-        container.open(filename, IContainer.Type.READ, null);
-        long duration = container.getDuration() / 1000000;
-        container.close();
+        VideoDto videoDto = objectMapper.convertValue(objects, VideoDto.class);
+        List<Error> errors = new ArrayList<>();
+        for (ErrorDto errorDto: videoDto.getError()){
+            errors.add(
+                    errorService.save(
+                            Error.builder()
+                                    .count(errorDto.getCount())
+                                    .field(errorDto.getField())
+                                    .message(errorDto.getMessage())
+                                    .localizedMessage(errorDto.getLocalizedMessage())
+                                    .build()
+                    )
+            );
+        }
 
 
         Training training = trainingService.save(
                 Training.builder()
                         .account(account)
-                        .location(videoLocation.getOutput_video())
                         .dateTime(LocalDateTime.now())
-                        .time(duration)
                         .exercise(findById(id))
+                        .video(videoDto.getOutput_video().getBytes())
+                        .errors(errors)
+                        .accuracy(videoDto.getAccuracy())
+                        .count(videoDto.getCount())
                         .build()
         );
         account = accountService.findByEmail(accountService.isLogged());
@@ -115,13 +125,15 @@ public class ExerciseServiceImpl implements ExerciseService {
         account = accountService.findByEmail(accountService.isLogged());
         account.setCount(account.getCount() + 1);
         account = accountService.findByEmail(accountService.isLogged());
-        if(id == 1){
-            account.setCalories((int) (account.getCalories() + duration/3));
+        if (id == 1) {
+            training.setCalories(videoDto.getCount());
+            account.setCalories(account.getCalories() + videoDto.getCount());
         } else if (id == 2) {
-            account.setCalories((int) (account.getCalories() + (duration/3)*2));
-        }
-        else {
-            account.setCalories((int) (account.getCalories() + duration/3));
+            training.setCalories(videoDto.getCount());
+            account.setCalories(account.getCalories() + videoDto.getCount() * 2);
+        } else {
+            training.setCalories(videoDto.getCount());
+            account.setCalories(account.getCalories() + videoDto.getCount() / 3);
         }
     }
 }

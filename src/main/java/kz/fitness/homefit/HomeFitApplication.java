@@ -83,8 +83,6 @@ public class HomeFitApplication {
             Training training = trainingService.save(
                     Training.builder()
                             .account(account)
-                            .location("ml-server/video/dca954aa-695e-4d8b-9fc4-13dea4ab21f3_processed.mp4")
-                            .time(14L)
                             .exercise(squats)
                             .dateTime(LocalDateTime.now())
                             .build()

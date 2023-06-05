@@ -1,6 +1,8 @@
 package kz.fitness.homefit.models;
 
 import lombok.*;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -41,5 +43,6 @@ public class Account {
     private Role role;
 
     @OneToMany
+    @Lazy
     private Set<Training> trainings;
 }

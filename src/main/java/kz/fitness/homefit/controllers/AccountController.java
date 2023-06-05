@@ -76,9 +76,4 @@ public class AccountController {
     public ResponseEntity<?> historyOpen(@PathVariable Long id) {
         return new ResponseEntity<>(TrainingMapper.toResponseDto(trainingService.findById(id)), HttpStatus.OK);
     }
-
-    @GetMapping("/history/h264/{id}")
-    public ResponseEntity<?> historyOpenH264(@PathVariable Long id) {
-        return new ResponseEntity<>(TrainingMapper.toResponseH264(trainingService.findById(id)), HttpStatus.OK);
-    }
 }

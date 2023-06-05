@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -22,14 +23,21 @@ public class Training {
     private Account account;
 
 
-    private String location;
-
     private LocalDateTime dateTime;
-
-    private long time; // time in milliseconds
 
     @ManyToOne
     private Exercise exercise;
 
+    @OneToMany
+    @ToString.Exclude
+    private List<Error> errors;
 
+    private Integer count;
+    private Integer accuracy;
+    private Integer calories;
+
+    @Lob
+    @Lazy
+    @org.hibernate.annotations.Type(type = "org.hibernate.type.ImageType")
+    private byte[] video;
 }
