@@ -20,7 +20,8 @@ public class TrainingMapper {
             System.out.println(training.getLocation());
             inputStream = Files.newInputStream(Paths.get(training.getLocation()));
         } catch (Exception e) {
-            // TODO: handle exception
+            File file = new File("hi.txt");
+            System.out.println(file.getAbsolutePath());
         }
         byte[] bytes;
         byte[] buffer = new byte[8192];

@@ -7,4 +7,11 @@ import lombok.Data;
 @Builder
 public class TrainingDto {
     private String video;
+
+    public TrainingDto(String video) {
+        this.video = video;
+    }
+
+    public TrainingDto() {
+    }
 }

@@ -78,8 +78,6 @@ public class ExerciseServiceImpl implements ExerciseService {
         try {
             FileOutputStream out = new FileOutputStream("ml-server\\" + name);
             out.write(decodedBytes);
-            System.out.println(name);
-            System.out.println(out.getChannel());
             System.out.println(out.getFD().valid());
             out.close();
         } catch (Exception e) {
