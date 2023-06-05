@@ -16,12 +16,23 @@ public class TrainingMapper {
         String encodedString = null;
 
         InputStream inputStream = null;
+        File file = new File("hi.txt");
+        try {
+            FileWriter writer = new FileWriter(file);
+            writer.write("This is an example file.");
+            writer.close();
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
+
+        System.out.println(file.getAbsolutePath());
         try {
             System.out.println(training.getLocation());
             inputStream = Files.newInputStream(Paths.get(training.getLocation()));
         } catch (Exception e) {
-            File file = new File("hi.txt");
-            System.out.println(file.getAbsolutePath());
+            File file1 = new File("hi.txt");
+            System.out.println(file1.getAbsolutePath());
         }
         byte[] bytes;
         byte[] buffer = new byte[8192];
