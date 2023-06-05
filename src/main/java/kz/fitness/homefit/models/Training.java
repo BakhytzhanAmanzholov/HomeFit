@@ -30,4 +30,6 @@ public class Training {
 
     @ManyToOne
     private Exercise exercise;
+
+
 }

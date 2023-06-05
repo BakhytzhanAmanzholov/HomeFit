@@ -9,5 +9,6 @@ public class TrainingHistoryDto {
     private Long id;
     private String dateTime;
     private String exercise;
+    private String src;
     private String video;
 }

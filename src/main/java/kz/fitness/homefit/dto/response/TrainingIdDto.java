@@ -9,4 +9,6 @@ public class TrainingIdDto {
     private Long id;
     private String dateTime;
     private String exercise;
+    private String src;
+
 }
