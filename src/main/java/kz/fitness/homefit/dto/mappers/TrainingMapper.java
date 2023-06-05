@@ -16,11 +16,11 @@ public class TrainingMapper {
     public static TrainingHistoryDto toResponseDto(Training training) {
         String encodedString = null;
         InputStream inputStream = null;
-        VideoConverter.convertBase64ToMp4(training.getLocation());
+        String path = VideoConverter.convertBase64ToMp4(training.getLocation());
+
 
         try {
-            System.out.println(training.getLocation());
-            inputStream = Files.newInputStream(Paths.get(training.getLocation()));
+            inputStream = Files.newInputStream(Paths.get(path));
         } catch (Exception e) {
             e.printStackTrace();
         }

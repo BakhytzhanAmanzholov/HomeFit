@@ -9,18 +9,16 @@ import ws.schild.jave.encode.enums.X264_PROFILE;
 import ws.schild.jave.info.VideoSize;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URL;
+import java.util.UUID;
 
 public class VideoConverter {
-    public static void convertBase64ToMp4(String outputFilePath)  {
+    public static String convertBase64ToMp4(String outputFilePath)  {
         File target = new File(outputFilePath);
-        MultimediaObject v = new MultimediaObject(target);
+        String name = UUID.randomUUID() + ".mp4";
+        File output = new File("ml-server\\" + name);
 
-
-        AudioAttributes audio = new AudioAttributes();
-        audio.setCodec("aac");
-        audio.setBitRate(64000);
-        audio.setChannels(2);
-        audio.setSamplingRate(44100);
 
         VideoAttributes video = new VideoAttributes();
         video.setCodec("h264");
@@ -31,14 +29,15 @@ public class VideoConverter {
 
         EncodingAttributes attrs = new EncodingAttributes();
         attrs.setOutputFormat("mp4");
-        attrs.setAudioAttributes(audio);
+        attrs.setInputFormat("mp4");
         attrs.setVideoAttributes(video);
 
         try {
             Encoder encoder = new Encoder();
-            encoder.encode(v, target, attrs);
+            encoder.encode(new MultimediaObject(target), output, attrs);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return output.getPath();
     }
 }
