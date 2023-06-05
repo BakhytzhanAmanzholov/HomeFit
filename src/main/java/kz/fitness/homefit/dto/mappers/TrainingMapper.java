@@ -4,6 +4,7 @@ import kz.fitness.homefit.dto.response.TrainingHistoryDto;
 import kz.fitness.homefit.dto.response.TrainingIdDto;
 import kz.fitness.homefit.models.Account;
 import kz.fitness.homefit.models.Training;
+import kz.fitness.homefit.utils.VideoConverter;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,25 +15,14 @@ import java.util.Base64;
 public class TrainingMapper {
     public static TrainingHistoryDto toResponseDto(Training training) {
         String encodedString = null;
-
         InputStream inputStream = null;
-        File file = new File("hi.txt");
-        try {
-            FileWriter writer = new FileWriter(file);
-            writer.write("This is an example file.");
-            writer.close();
-        }
-        catch (IOException e){
-            System.out.println(e);
-        }
+        VideoConverter.convertBase64ToMp4(training.getLocation());
 
-        System.out.println(file.getAbsolutePath());
         try {
             System.out.println(training.getLocation());
             inputStream = Files.newInputStream(Paths.get(training.getLocation()));
         } catch (Exception e) {
-            File file1 = new File("hi.txt");
-            System.out.println(file1.getAbsolutePath());
+            e.printStackTrace();
         }
         byte[] bytes;
         byte[] buffer = new byte[8192];
