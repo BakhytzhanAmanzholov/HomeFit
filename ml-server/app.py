@@ -187,7 +187,6 @@ def squats():
     with open(output_video_path, 'rb') as file:
         output_video_bytes = file.read()
         output_video_base64 = base64.b64encode(output_video_bytes).decode('utf-8')
-    print(output_video_base64)
     # Remove the temporary video file
     os.remove(temp_video_path)
 
