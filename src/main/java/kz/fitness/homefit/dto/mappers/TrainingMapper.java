@@ -36,16 +36,16 @@ public class TrainingMapper {
                             .build()
             );
         }
-        if (training.getExercise().getName().equals("Squats")) {
+        if (training.getExercise().getId()==1) {
             dto.setSrc("assets/images/history/squats.jpg");
-        } else if (training.getExercise().getName().equals("Dumbells")) {
+        } else if (training.getExercise().getId()==2) {
             dto.setSrc("assets/images/history/curls.jpg");
-        } else if (training.getExercise().getName().equals("Pushups")) {
+        } else if (training.getExercise().getId()==3) {
             dto.setSrc("assets/images/history/pushups.jpg");
-        } else if (training.getExercise().getName().equals("Abs-legs")) {
-            dto.setSrc("aassets/images/history/lateral-raise.jpg");
-        } else if (training.getExercise().getName().equals("Lateral-raise")) {
-            dto.setSrc("assets/images/history/curls.jpg");
+        } else if (training.getExercise().getId()==4){
+            dto.setSrc("assets/images/history/abs-legs.jpeg");
+        } else if (training.getExercise().getId()==5) {
+            dto.setSrc("assets/images/history/lateral-raise.jpg");
         }
         dto.setErrors(errorDto);
 
