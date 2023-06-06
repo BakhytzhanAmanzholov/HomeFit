@@ -70,13 +70,13 @@ public class HomeFitApplication {
             exerciseService.save(
                     Exercise.builder()
                             .name("Abs-legs")
-                            .type(Exercise.Type.HANDS)
+                            .type(Exercise.Type.LEGS)
                             .build()
             );
             exerciseService.save(
                     Exercise.builder()
                             .name("Lateral-raise")
-                            .type(Exercise.Type.LEGS)
+                            .type(Exercise.Type.HANDS)
                             .build()
             );
 

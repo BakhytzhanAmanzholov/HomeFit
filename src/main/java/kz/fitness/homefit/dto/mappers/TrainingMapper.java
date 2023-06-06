@@ -26,7 +26,7 @@ public class TrainingMapper {
             dto.setVideo(s);
         }
         List<ErrorDto> errorDto = new ArrayList<>();
-        for (Error error: training.getErrors()){
+        for (Error error : training.getErrors()) {
             errorDto.add(
                     ErrorDto.builder()
                             .count(error.getCount())
@@ -42,10 +42,9 @@ public class TrainingMapper {
             dto.setSrc("assets/images/history/curls.jpg");
         } else if (training.getExercise().getName().equals("Pushups")) {
             dto.setSrc("assets/images/history/pushups.jpg");
-        }else if (training.getExercise().getName().equals("Abs-legs")) {
+        } else if (training.getExercise().getName().equals("Abs-legs")) {
             dto.setSrc("aassets/images/history/lateral-raise.jpg");
-        }
-        else if (training.getExercise().getName().equals("Lateral-raise")) {
+        } else if (training.getExercise().getName().equals("Lateral-raise")) {
             dto.setSrc("assets/images/history/curls.jpg");
         }
         dto.setErrors(errorDto);

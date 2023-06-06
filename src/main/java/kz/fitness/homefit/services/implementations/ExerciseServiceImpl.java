@@ -135,9 +135,16 @@ public class ExerciseServiceImpl implements ExerciseService {
         } else if (id == 2) {
             training.setCalories(videoDto.getCount());
             account.setCalories(account.getCalories() + videoDto.getCount() * 2);
-        } else {
+        } else if(id == 3){
             training.setCalories(videoDto.getCount());
             account.setCalories(account.getCalories() + videoDto.getCount() / 3);
+        } else if (id == 4) {
+            training.setCalories(videoDto.getCount());
+            account.setCalories((int) (account.getCalories() + videoDto.getCount() * 0.5));
+        }
+        else{
+            training.setCalories(videoDto.getCount());
+            account.setCalories(account.getCalories() + videoDto.getCount() / 2);
         }
     }
 }
