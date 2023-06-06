@@ -36,16 +36,17 @@ public class TrainingMapper {
                             .build()
             );
         }
-        if (training.getExercise().getId()==1) {
+        System.out.println(training.getExercise());
+        if (training.getExercise().getId() == 1) {
             dto.setSrc("assets/images/history/squats.jpg");
-        } else if (training.getExercise().getId()==2) {
+        } else if (training.getExercise().getId() == 2) {
             dto.setSrc("assets/images/history/curls.jpg");
-        } else if (training.getExercise().getId()==3) {
+        } else if (training.getExercise().getId() == 3) {
             dto.setSrc("assets/images/history/pushups.jpg");
-        } else if (training.getExercise().getId()==4){
-            dto.setSrc("assets/images/history/abs-legs.jpeg");
-        } else if (training.getExercise().getId()==5) {
-            dto.setSrc("assets/images/history/lateral-raise.jpg");
+        } else if (training.getExercise().getId() == 4) {
+            dto.setSrc("assets/images/history/abs.jpeg");
+        } else if (training.getExercise().getId() == 5) {
+            dto.setSrc("assets/images/history/lateralRaise.jpg");
         }
         dto.setErrors(errorDto);
 
@@ -58,12 +59,16 @@ public class TrainingMapper {
                 .exercise(training.getExercise().getName())
                 .dateTime(training.getDateTime().toString())
                 .build();
-        if (training.getExercise().getName().equals("Squats")) {
+        if (training.getExercise().getId() == 1) {
             dto.setSrc("assets/images/history/squats.jpg");
-        } else if (training.getExercise().getName().equals("Dumbells")) {
+        } else if (training.getExercise().getId() == 2) {
             dto.setSrc("assets/images/history/curls.jpg");
-        } else if (training.getExercise().getName().equals("Pushups")) {
+        } else if (training.getExercise().getId() == 3) {
             dto.setSrc("assets/images/history/pushups.jpg");
+        } else if (training.getExercise().getId() == 4) {
+            dto.setSrc("assets/images/history/abs.jpeg");
+        } else if (training.getExercise().getId() == 5) {
+            dto.setSrc("assets/images/history/lateralRaise.jpg");
         }
 
         return dto;
