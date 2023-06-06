@@ -67,6 +67,18 @@ public class HomeFitApplication {
                             .type(Exercise.Type.HANDS)
                             .build()
             );
+            exerciseService.save(
+                    Exercise.builder()
+                            .name("Abs-legs")
+                            .type(Exercise.Type.HANDS)
+                            .build()
+            );
+            exerciseService.save(
+                    Exercise.builder()
+                            .name("Lateral-raise")
+                            .type(Exercise.Type.LEGS)
+                            .build()
+            );
 
             Account account = accountService.save(
                     Account.builder()

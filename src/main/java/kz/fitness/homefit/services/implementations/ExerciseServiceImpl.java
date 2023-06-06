@@ -85,17 +85,21 @@ public class ExerciseServiceImpl implements ExerciseService {
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
         if (id == 1) {
-            responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/curl",  requestEntity, Object.class);
+            responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/curl", requestEntity, Object.class);
         } else if (id == 3) {
             responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/pushups", requestEntity, Object.class);
+        } else if (id == 2) {
+            responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/squats", requestEntity, Object.class);
+        } else if (id == 4) {
+            responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/abs_legs", requestEntity, Object.class);
         } else {
-            responseToServe = restTemplate.postForEntity("http://localhost:5000/squats", requestEntity, Object.class);
+            responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/lateral_raise", requestEntity, Object.class);
         }
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         VideoDto videoDto = objectMapper.convertValue(objects, VideoDto.class);
         List<Error> errors = new ArrayList<>();
-        for (ErrorDto errorDto: videoDto.getError()){
+        for (ErrorDto errorDto : videoDto.getError()) {
             errors.add(
                     errorService.save(
                             Error.builder()

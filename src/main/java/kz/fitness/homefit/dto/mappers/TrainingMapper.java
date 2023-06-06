@@ -42,6 +42,11 @@ public class TrainingMapper {
             dto.setSrc("assets/images/history/curls.jpg");
         } else if (training.getExercise().getName().equals("Pushups")) {
             dto.setSrc("assets/images/history/pushups.jpg");
+        }else if (training.getExercise().getName().equals("Abs-legs")) {
+            dto.setSrc("aassets/images/history/lateral-raise.jpg");
+        }
+        else if (training.getExercise().getName().equals("Lateral-raise")) {
+            dto.setSrc("assets/images/history/curls.jpg");
         }
         dto.setErrors(errorDto);
 
