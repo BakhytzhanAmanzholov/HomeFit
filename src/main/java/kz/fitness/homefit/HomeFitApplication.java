@@ -80,15 +80,7 @@ public class HomeFitApplication {
                             .trainings(new HashSet<>())
                             .build()
             );
-            Training training = trainingService.save(
-                    Training.builder()
-                            .account(account)
-                            .exercise(squats)
-                            .dateTime(LocalDateTime.now())
-                            .build()
-            );
-            account = accountService.findByEmail(account.getEmail());
-            accountService.addTrainingToAccount(training, account);
+
         };
     }
 

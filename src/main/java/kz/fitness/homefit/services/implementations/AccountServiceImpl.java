@@ -13,8 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -90,6 +92,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Set<Training> getHistory() {
         Account account = findByEmail(isLogged());
-        return account.getTrainings();
+        return account.getTrainings().stream().sorted((o1, o2) -> (int) (o1.getId() - o2.getId())).collect(Collectors.toSet());
     }
 }

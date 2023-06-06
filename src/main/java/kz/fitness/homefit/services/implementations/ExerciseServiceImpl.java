@@ -89,7 +89,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         } else if (id == 3) {
             responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/pushups", requestEntity, Object.class);
         } else {
-            responseToServe = restTemplate.postForEntity("http://161.35.223.202:5000/squats", requestEntity, Object.class);
+            responseToServe = restTemplate.postForEntity("http://localhost:5000/squats", requestEntity, Object.class);
         }
         Object objects = responseToServe.getBody();
         ObjectMapper objectMapper = new ObjectMapper();
